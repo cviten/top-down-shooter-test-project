@@ -30,12 +30,4 @@ struct Bullet
     IDType bulletID;
 };
 
-struct Enemy
-{
-    IDType enemyID;
-    HPType maxHP;
-    SpeedType speed;
-    IDType bulletID;
-};
-
 #endif //TOP_DOWN_SHOOTER_GAMEENTITES_H
