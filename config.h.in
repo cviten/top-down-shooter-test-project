@@ -1,0 +1,10 @@
+//
+// Created by cviten on 11/12/22.
+//
+
+#ifndef TOP_DOWN_SHOOTER_CONFIG_H
+#define TOP_DOWN_SHOOTER_CONFIG_H
+
+#cmakedefine SFML_ENABLE
+
+#endif //TOP_DOWN_SHOOTER_CONFIG_H
