@@ -8,7 +8,8 @@
 #include <vector>
 #include <memory>
 
-#include "DrawObject.h"
+#include "Core/DrawObject.h"
+
 #include "SFMLDrawer.h"
 
 namespace sf {

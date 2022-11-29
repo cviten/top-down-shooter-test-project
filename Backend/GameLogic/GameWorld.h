@@ -9,8 +9,8 @@
 #include <functional>
 
 // Core
-#include "DrawObject.h"
-#include "Input.h"
+#include "Core/DrawObject.h"
+#include "Core/Input.h"
 // GameLogic
 #include "GameObject.h"
 

@@ -5,8 +5,8 @@
 #ifndef TOP_DOWN_SHOOTER_GAMEOBJECT_H
 #define TOP_DOWN_SHOOTER_GAMEOBJECT_H
 
-#include "../../Core/core.h"
-#include "../../Core/CoreTypes.h"
+#include "Core/core.h"
+#include "Core/CoreTypes.h"
 #include "Bodies/CollisionBody.h"
 #include "Bodies/VisualBody.h"
 

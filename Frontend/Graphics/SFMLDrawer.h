@@ -7,7 +7,7 @@
 
 #include <memory>
 
-#include "DrawObject.h"
+#include "Core/DrawObject.h"
 
 namespace sf {
     class RenderWindow;

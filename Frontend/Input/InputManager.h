@@ -7,7 +7,7 @@
 
 #include <memory>
 
-#include "Input.h"
+#include "Core/Input.h"
 
 namespace sf
 {
