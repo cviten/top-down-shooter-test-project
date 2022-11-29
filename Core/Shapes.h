@@ -68,6 +68,7 @@ namespace Shapes
     inline Shape& move(Shape& shape, Direction direction, SpeedType speed, TimeType deltaTime)
     {
         shape.position = shape.position + direction * speed * deltaTime;
+        return shape;
     }
 
 }

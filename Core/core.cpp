@@ -47,6 +47,7 @@ Point move(const Point &point, const Vector &vector) {
 
 Vector normalize(const Vector &vector) {
     const auto length = vectorLength(vector);
+    if (length < EPSILON) return {};
     return {vector.x / length, vector.y / length};
 }
 

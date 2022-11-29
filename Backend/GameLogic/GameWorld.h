@@ -10,6 +10,7 @@
 
 // Core
 #include "DrawObject.h"
+#include "Input.h"
 // GameLogic
 #include "GameObject.h"
 
@@ -17,10 +18,15 @@ class GameWorld {
     PlayerInst player;
     EnemyInst enemy;
     WallInst wall;
+
+    Direction playerDirection;
 public:
     GameWorld();
     void process(TimeType deltaTime);
     std::vector<DrawObject> getDrawObjects() const;
+
+    void setInputAction(const Input::InputActions& actions);
+    void setInputAxes(const Input::InputAxes& axes);
 };
 
 template<typename Object>

@@ -1,1 +1,1 @@
-add_library(Core core.cpp CoreTypes.h Shapes.h DrawObject.h)
+add_library(Core core.cpp CoreTypes.h Shapes.h DrawObject.h Input.h)

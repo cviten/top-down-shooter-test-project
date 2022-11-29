@@ -6,6 +6,7 @@
 #define TOP_DOWN_SHOOTER_GAMEMANAGER_H
 
 #include "Frontend/Graphics/Graphics.h"
+#include "Frontend/Input/InputManager.h"
 #include "Backend/GameLogic/GameWorld.h"
 
 namespace sf {
@@ -15,6 +16,8 @@ namespace sf {
 class GameManager {
     Graphics graphics;
     GameWorld gameWorld;
+    InputManager inputManager;
+
 
     // Not mandatory but for optimization
 //    std::shared_ptr<sf::RenderWindow> window;

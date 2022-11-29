@@ -19,16 +19,16 @@ GameManager::GameManager() {
 
 void GameManager::gameLoop() {
     auto window = graphics.getWindow();
+    window->setFramerateLimit(60);
+
+    inputManager.setWindow(window);
 
     sf::Clock clock;
     while (window->isOpen())
     {
-        sf::Event event;
-        while (window->pollEvent(event))
-        {
-            if (event.type == sf::Event::Closed)
-                window->close();
-        }
+        inputManager.processEvents();
+
+        gameWorld.setInputAxes(inputManager.getAxes());
         TimeType deltaTime = clock.restart().asSeconds();
 
         gameWorld.process(deltaTime);
@@ -38,7 +38,3 @@ void GameManager::gameLoop() {
 
 
 }
-
-//void GameManager::close(const std::shared_ptr<sf::RenderWindow>& window) {
-//    window->close();
-//}
