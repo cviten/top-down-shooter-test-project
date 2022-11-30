@@ -3,6 +3,7 @@
 //
 
 #include "GameManager.h"
+#include "CoreTypes.h"
 
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Window/Event.hpp>
@@ -11,9 +12,9 @@ GameManager::GameManager() {
 //    window = std::make_shared<sf::RenderWindow>();
     using namespace DrawSettings;
     ObjectColorPalette palette;
-    palette.insert(std::make_pair(ObjectPaletteType::Player, Colors::Green));
-    palette.insert(std::make_pair(ObjectPaletteType::Enemy, Colors::Blue));
-    palette.insert(std::make_pair(ObjectPaletteType::Wall, Colors::Yellow));
+    palette.insert(std::make_pair(GameObjectType::Player, Colors::Green));
+    palette.insert(std::make_pair(GameObjectType::Enemy, Colors::Blue));
+    palette.insert(std::make_pair(GameObjectType::Wall, Colors::Yellow));
     graphics.setColorPalette(palette);
 }
 

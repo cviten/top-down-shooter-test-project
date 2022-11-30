@@ -13,6 +13,7 @@
 #include "Core/Input.h"
 // GameLogic
 #include "GameObject.h"
+#include "CoreTypes.h"
 
 class GameWorld {
     PlayerInst player;
@@ -30,7 +31,7 @@ public:
 };
 
 template<typename Object>
-DrawObject toDrawObject(const Object& obj, DrawSettings::ObjectPaletteType type)
+DrawObject toDrawObject(const Object& obj, GameObjectType type)
 {
     return {obj.getVisualBody().getShape(), type};
 }

@@ -5,6 +5,13 @@
 #ifndef TOP_DOWN_SHOOTER_CORETYPES_H
 #define TOP_DOWN_SHOOTER_CORETYPES_H
 
+#include <map>
+#include "core.h"
+#include "Shapes.h"
+
+// Consider to make into class (like Color)
+enum class GameObjectType { Player, Enemy, Wall };
+
 using IDType = int;
 
 // using HPType = int

@@ -42,9 +42,7 @@ namespace DrawSettings
         constexpr static Color Transparent{0,0,0,0};
     }
 
-    // Consider to make into class (like Color)
-    enum class ObjectPaletteType { Player, Enemy, Wall };
-    using ObjectColorPalette = std::map<ObjectPaletteType, Color>;
+    using ObjectColorPalette = std::map<GameObjectType, Color>;
 }
 
 
@@ -55,17 +53,17 @@ struct DrawObject
     DrawSettings::Shape shape;
     Point position;
     Size size;
-    DrawSettings::ObjectPaletteType objectType;
+    GameObjectType objectType;
     bool isWireFrame = false;
 
-    DrawObject(DrawSettings::Shape shape, const Point& position, const Size& size, const DrawSettings::ObjectPaletteType& objectType)
+    DrawObject(DrawSettings::Shape shape, const Point& position, const Size& size, const GameObjectType& objectType)
             : shape(shape), position(position), size(size), objectType(objectType) {}
 
-    DrawObject(const Shapes::Rectangle& rect, const DrawSettings::ObjectPaletteType& objectType) : shape(DrawSettings::Rectangle), position(rect.position),
-                                                                           size(rect.size), objectType(objectType) {}
+    DrawObject(const Shapes::Rectangle& rect, const GameObjectType& objectType) : shape(DrawSettings::Rectangle), position(rect.position),
+                                                                                  size(rect.size), objectType(objectType) {}
 
-    DrawObject(const Shapes::Circle& circle, const DrawSettings::ObjectPaletteType& objectType) : shape(DrawSettings::Circle), position(circle.position),
-                                                                                  size(circle.radius, 0), objectType(objectType) {}
+    DrawObject(const Shapes::Circle& circle, const GameObjectType& objectType) : shape(DrawSettings::Circle), position(circle.position),
+                                                                                 size(circle.radius, 0), objectType(objectType) {}
 };
 
 #endif //TOP_DOWN_SHOOTER_DRAWOBJECT_H
