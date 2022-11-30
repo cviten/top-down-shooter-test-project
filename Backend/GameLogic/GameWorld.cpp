@@ -3,7 +3,7 @@
 //
 
 #include "GameWorld.h"
-#include "CoreTypes.h"
+#include "Core/CoreTypes.h"
 
 template <typename KeyType, typename ValueType>
 inline ValueType getValueOrDefault(const std::map<KeyType,ValueType>& map, const KeyType& key)

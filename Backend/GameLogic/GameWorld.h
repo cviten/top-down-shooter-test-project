@@ -14,7 +14,6 @@
 #include "Core/CoreTypes.h"
 // GameLogic
 #include "GameObject.h"
-#include "CoreTypes.h"
 
 class GameWorld {
     PlayerInst player;
