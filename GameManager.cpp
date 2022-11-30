@@ -3,7 +3,7 @@
 //
 
 #include "GameManager.h"
-#include "CoreTypes.h"
+#include "Core/CoreTypes.h"
 
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Window/Event.hpp>

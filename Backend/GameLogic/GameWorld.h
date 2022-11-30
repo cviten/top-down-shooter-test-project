@@ -11,6 +11,7 @@
 // Core
 #include "Core/DrawObject.h"
 #include "Core/Input.h"
+#include "Core/CoreTypes.h"
 // GameLogic
 #include "GameObject.h"
 #include "CoreTypes.h"
