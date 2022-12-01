@@ -19,9 +19,6 @@ class GameManager {
     InputManager inputManager;
 
 
-    // Not mandatory but for optimization
-//    std::shared_ptr<sf::RenderWindow> window;
-//    void close(const std::shared_ptr<sf::RenderWindow>& window);
 public:
     GameManager();
     void readInput();

@@ -19,21 +19,25 @@ class InputManager {
     std::shared_ptr<sf::Window> window;
 
     Input::InputActions actions;
+    Input::InputPoints points;
     Input::InputAxes axes;
 
     void readPressedKeys();
     void processKeyboardInput(const sf::Event& event);
+    void processMouseButtonInput(const sf::Event& event);
 
     void clearInput();
     void finishInput();
 
     void processEvent(const sf::Event& event);
 public:
-    const Input::InputActions& getActions() const;
+
 
     void setWindow(const std::shared_ptr<sf::Window>& window);
 
     const Input::InputAxes& getAxes() const;
+    const Input::InputPoints& getPoints() const;
+    const Input::InputActions& getActions() const;
 
     void processEvents();
 

@@ -45,12 +45,6 @@ void InputManager::processEvents() {
     }
     readPressedKeys();
     finishInput();
-
-
-//    if (event.type == sf::Event::Closed)
-//        window->close();
-//    if(event.type == sf::Event::KeyPressed)
-//        processKeyboardInput(event);
 }
 
 void InputManager::readPressedKeys() {
@@ -70,4 +64,19 @@ void InputManager::processEvent(const sf::Event& event) {
         window->close();
     if (event.type == sf::Event::KeyPressed)
         processKeyboardInput(event);
+    if (event.type == sf::Event::MouseButtonPressed)
+        processMouseButtonInput(event);
+
+}
+
+void InputManager::processMouseButtonInput(const sf::Event& event) {
+    if (event.mouseButton.button == sf::Mouse::Left)
+    {
+        actions[Input::InputAction::Shoot] = true;
+        points[Input::InputPoint::BulletLaunchTarget] = Point (event.mouseButton.x, event.mouseButton.y);
+    }
+}
+
+const Input::InputPoints& InputManager::getPoints() const {
+    return points;
 }
