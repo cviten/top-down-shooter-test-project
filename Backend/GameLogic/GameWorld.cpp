@@ -4,6 +4,7 @@
 
 #include "GameWorld.h"
 #include "Core/CoreTypes.h"
+#include "Core/DrawObject.h"
 
 template <typename KeyType, typename ValueType>
 inline ValueType getValueOrDefault(const std::map<KeyType,ValueType>& map, const KeyType& key)
@@ -13,16 +14,21 @@ inline ValueType getValueOrDefault(const std::map<KeyType,ValueType>& map, const
     return {};
 }
 
-GameWorld::GameWorld() : player(Shapes::Rectangle({0,0},{20,20})),
-                         enemy(Shapes::Rectangle({100,0},{20,20})),
-                         wall(Shapes::Rectangle({50,0},{20,20})) {}
+DrawObject toDrawObject(const SimpleGameObject& obj)
+{
+    return {obj.getVisualBody().getShape(), obj.getGameObjectType()};
+}
+
+GameWorld::GameWorld() : player(Shapes::Rectangle({0,0},{20,20}), GameObjectType::Player),
+                         enemy(Shapes::Rectangle({100,0},{20,20}), GameObjectType::Enemy),
+                         wall(Shapes::Rectangle({50,0},{20,20}), GameObjectType::Wall) {}
 
 std::vector<DrawObject> GameWorld::getDrawObjects() const {
     std::vector<DrawObject> pool;
     // Not optimal but easier on the eye
-    pool.emplace_back(toDrawObject(player, GameObjectType::Player));
-    pool.emplace_back(toDrawObject(enemy, GameObjectType::Enemy));
-    pool.emplace_back(toDrawObject(wall, GameObjectType::Wall));
+    pool.emplace_back(toDrawObject(player));
+    pool.emplace_back(toDrawObject(enemy));
+    pool.emplace_back(toDrawObject(wall));
     return pool;
 }
 

@@ -12,13 +12,18 @@
 
 class SimpleGameObject
 {
+    GameObjectType gameObjectType;
     VisualBody visualBody;
     CollisionBody collisionBody;
 public:
-    SimpleGameObject(const Shapes::Rectangle& rect) : visualBody(rect), collisionBody(rect) {}
+    SimpleGameObject(const Shapes::Rectangle& rect, GameObjectType type) : visualBody(rect), collisionBody(rect), gameObjectType(type) {}
     void setActive(bool isActive) {
         visualBody.setActive(isActive);
         collisionBody.setActive(isActive);
+    }
+
+    GameObjectType getGameObjectType() const {
+        return gameObjectType;
     }
 
     const VisualBody& getVisualBody() const {
@@ -36,31 +41,24 @@ public:
     }
 };
 
-class BulletInst : public SimpleGameObject
+class Bullet : public SimpleGameObject
 {
-    IDType bulletID;
-};
-
-class EnemyInst : public SimpleGameObject
-{
-
-//    IDType enemyID;
-//    HPType currentHP;
     using SimpleGameObject::SimpleGameObject;
 };
 
-class PlayerInst : public SimpleGameObject
+class Enemy : public SimpleGameObject
 {
     using SimpleGameObject::SimpleGameObject;
-//    HPType currentHP;
-//    IDType currentWeaponID;
 };
 
-class WallInst : public SimpleGameObject
+class Player : public SimpleGameObject
 {
     using SimpleGameObject::SimpleGameObject;
-//    HPType currentHP;
-//    IDType currentWeaponID;
+};
+
+class Wall : public SimpleGameObject
+{
+    using SimpleGameObject::SimpleGameObject;
 };
 
 #endif //TOP_DOWN_SHOOTER_GAMEOBJECT_H
