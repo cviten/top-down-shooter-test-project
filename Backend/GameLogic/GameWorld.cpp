@@ -20,8 +20,8 @@ DrawObject toDrawObject(const SimpleGameObject& obj)
 }
 
 GameWorld::GameWorld() : player(Shapes::Rectangle({0,0},{20,20}), GameObjectType::Player),
-                         enemy(Shapes::Rectangle({100,0},{20,20}), GameObjectType::Enemy),
-                         wall(Shapes::Rectangle({50,0},{20,20}), GameObjectType::Wall) {}
+                         enemy(Shapes::Rectangle({100,200},{20,20}), GameObjectType::Enemy),
+                         wall(Shapes::Rectangle({300,50},{20,20}), GameObjectType::Wall) {}
 
 std::vector<DrawObject> GameWorld::getDrawObjects() const {
     std::vector<DrawObject> pool;
@@ -33,7 +33,21 @@ std::vector<DrawObject> GameWorld::getDrawObjects() const {
 }
 
 void GameWorld::process(TimeType deltaTime) {
-    player.move(playerDirection, 400, deltaTime);
+    // TODO: Replace with speed from player object or config
+    const SpeedType playerSpeed = 400;
+    const SpeedType walkSteps = playerSpeed / 20.0;
+    player.move(playerDirection, playerSpeed, deltaTime);
+
+    // TODO: Add sliding along the wall
+    if( CollisionBody::check(player.getCollisionBody(), wall.getCollisionBody()))
+    {
+        player.move(-playerDirection, playerSpeed, deltaTime);
+        while (!CollisionBody::check(player.getCollisionBody(), wall.getCollisionBody()))
+        {
+            player.move(playerDirection, walkSteps, deltaTime);
+        }
+        player.move(-playerDirection, walkSteps, deltaTime);
+    }
 
 }
 

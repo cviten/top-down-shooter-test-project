@@ -14,6 +14,8 @@
 // GameLogic
 #include "GameObject.h"
 
+class DrawObject;
+
 class GameWorld {
     Player player;
     Enemy enemy;

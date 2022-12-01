@@ -53,6 +53,7 @@ using Direction = Vector;
 
 bool operator==(const Type2D& p1, const Type2D& p2);
 bool operator!=(const Type2D& p1, const Type2D& p2);
+Type2D operator-(const Type2D& xy);
 
 Vector operator+ (const Vector& v1, const Vector& v2);
 Vector operator- (const Vector& v1, const Vector& v2);

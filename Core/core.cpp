@@ -41,6 +41,11 @@ Vector operator+(const Vector &v1, const Vector &v2) {
     return {v1.x + v2.x, v1.y + v2.y};
 }
 
+Type2D operator-(const Type2D& xy)
+{
+    return {-xy.x, -xy.y};
+}
+
 Point move(const Point &point, const Vector &vector) {
     return {point.x + vector.x, point.y + vector.y};
 }
