@@ -14,7 +14,8 @@ inline ValueType getValueOrDefault(const std::map<KeyType,ValueType>& map, const
     return {};
 }
 
-DrawObject toDrawObject(const SimpleGameObject& obj)
+template <typename GameObject>
+DrawObject toDrawObject(const GameObject& obj)
 {
     return {obj.getVisualBody().getShape(), obj.getGameObjectType()};
 }

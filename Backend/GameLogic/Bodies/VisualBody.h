@@ -5,37 +5,23 @@
 #ifndef TOP_DOWN_SHOOTER_VISUALBODY_H
 #define TOP_DOWN_SHOOTER_VISUALBODY_H
 
-#include "../../../Core/Shapes.h"
+#include "Core/Shapes.h"
 
-class VisualBody {
-    Shapes::Rectangle rect;
+template<typename Shape = Shapes::Rectangle>
+class VisualBody
+{
+    Shape shape;
     bool active;
 public:
-    explicit VisualBody(const Shapes::Rectangle& rect, bool isActive = true) : rect(rect), active(isActive) {}
+    explicit VisualBody(const Shape& iShape, bool isActive = true) : shape(iShape), active(isActive) {}
     void setActive(bool isActive) { active = isActive;}
 
-    const Shapes::Rectangle& getShape() const {
-        return rect;
+    const Shape& getShape() const {
+        return shape;
     }
-    void move(Direction direction, SpeedType speed, TimeType deltaTime) { Shapes::move(rect, direction, speed, deltaTime);}
 
+    void move(Direction direction, SpeedType speed, TimeType deltaTime) { Shapes::move(shape, direction, speed, deltaTime);}
 };
-
-//template<typename Shape = Shapes::Rectangle>
-//class VisualBody
-//{
-//    Shape shape;
-//    bool active;
-//public:
-//    explicit VisualBody(const Shape& rect, bool isActive = true) : shape(shape), active(isActive) {}
-//    void setActive(bool isActive) { active = isActive;}
-//
-//    const Shape& getShape() const {
-//        return shape;
-//    }
-//
-//    void move(Direction direction, SpeedType speed, TimeType deltaTime) { Shapes::move(shape, direction, speed, deltaTime);}
-//};
 
 
 #endif //TOP_DOWN_SHOOTER_VISUALBODY_H

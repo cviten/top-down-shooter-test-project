@@ -10,13 +10,14 @@
 #include "Bodies/CollisionBody.h"
 #include "Bodies/VisualBody.h"
 
+template<typename VisualShape>
 class SimpleGameObject
 {
     GameObjectType gameObjectType;
-    VisualBody visualBody;
+    VisualBody<VisualShape> visualBody;
     CollisionBody collisionBody;
 public:
-    SimpleGameObject(const Shapes::Rectangle& rect, GameObjectType type) : visualBody(rect), collisionBody(rect), gameObjectType(type) {}
+    SimpleGameObject(const VisualShape& shape, GameObjectType type) : visualBody(shape), collisionBody(shape), gameObjectType(type) {}
     void setActive(bool isActive) {
         visualBody.setActive(isActive);
         collisionBody.setActive(isActive);
@@ -26,7 +27,7 @@ public:
         return gameObjectType;
     }
 
-    const VisualBody& getVisualBody() const {
+    const VisualBody<VisualShape>& getVisualBody() const {
         return visualBody;
     }
 
@@ -41,22 +42,22 @@ public:
     }
 };
 
-class Bullet : public SimpleGameObject
+class Bullet : public SimpleGameObject<Shapes::Circle>
 {
     using SimpleGameObject::SimpleGameObject;
 };
 
-class Enemy : public SimpleGameObject
+class Enemy : public SimpleGameObject<Shapes::Rectangle>
 {
     using SimpleGameObject::SimpleGameObject;
 };
 
-class Player : public SimpleGameObject
+class Player : public SimpleGameObject<Shapes::Rectangle>
 {
     using SimpleGameObject::SimpleGameObject;
 };
 
-class Wall : public SimpleGameObject
+class Wall : public SimpleGameObject<Shapes::Rectangle>
 {
     using SimpleGameObject::SimpleGameObject;
 };
