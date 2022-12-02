@@ -17,6 +17,9 @@ GameManager::GameManager() {
     palette.insert(std::make_pair(GameObjectType::Wall, Colors::Yellow));
     palette.insert(std::make_pair(GameObjectType::Bullet, Colors::White));
     graphics.setColorPalette(palette);
+
+    config.loadConfig("config.ini");
+    gameWorld.applyConfig(config);
 }
 
 void GameManager::gameLoop() {

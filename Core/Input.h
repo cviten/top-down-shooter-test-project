@@ -7,7 +7,7 @@
 
 #include <map>
 
-#include "core.h"
+#include "Core.h"
 
 namespace Input
 {

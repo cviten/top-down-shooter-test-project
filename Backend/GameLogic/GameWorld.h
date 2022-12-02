@@ -11,6 +11,7 @@
 // Core
 #include "Core/Input.h"
 #include "Core/CoreTypes.h"
+#include "Core/Config.h"
 // GameLogic
 #include "GameObject.h"
 
@@ -24,6 +25,7 @@ class GameWorld {
     Bullet bullet;
 
     Direction playerDirection;
+    SpeedType playerSpeed;
 public:
     GameWorld();
     void process(TimeType deltaTime);
@@ -31,6 +33,8 @@ public:
 
     void setInputAction(const Input::InputActions& actions);
     void setInputAxes(const Input::InputAxes& axes);
+
+    void applyConfig(const Config& config);
 };
 
 

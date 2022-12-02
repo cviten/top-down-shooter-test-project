@@ -5,14 +5,7 @@
 #include "GameWorld.h"
 #include "Core/CoreTypes.h"
 #include "Core/DrawObject.h"
-
-template <typename KeyType, typename ValueType>
-inline ValueType getValueOrDefault(const std::map<KeyType,ValueType>& map, const KeyType& key)
-{
-    auto it = map.find(key);
-    if(it != map.end()) return it->second;
-    return {};
-}
+#include "Core/Util.h"
 
 template <typename GameObject>
 DrawObject toDrawObject(const GameObject& obj)
@@ -43,11 +36,9 @@ std::vector<DrawObject> GameWorld::getDrawObjects() const {
 
 
 void GameWorld::process(TimeType deltaTime) {
-    // TODO: Replace with speed from player object or config
-    const SpeedType playerSpeed = 400;
     const SpeedType walkSteps = playerSpeed / 20.0;
 
-    auto& playerControlledObject = enemy;
+    auto& playerControlledObject = player;
     playerControlledObject.move(playerDirection, playerSpeed, deltaTime);
 
     // TODO: Add sliding along the wall
@@ -74,4 +65,8 @@ void GameWorld::setInputAction(const Input::InputActions& actions) {
 
 void GameWorld::setInputAxes(const Input::InputAxes& axes) {
     playerDirection = getValueOrDefault(axes,Input::InputAxis::Move);
+}
+
+void GameWorld::applyConfig(const Config& config) {
+    playerSpeed = config.getAsSpeed("PlayerSpeed");
 }

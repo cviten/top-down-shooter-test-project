@@ -7,7 +7,7 @@
 
 #include "doctest.h"
 
-#include "../Core/core.h"
+#include "../Core/Core.h"
 #include "../Core/Shapes.h"
 
 TEST_SUITE("Core")

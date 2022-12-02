@@ -11,6 +11,9 @@ OPTION(SFML_ENABLE "SFML Integration" ON)
 #        "${PROJECT_BINARY_DIR}/config.h"
 #)
 
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/config.ini
+        DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+
 add_subdirectory(Core)
 
 add_subdirectory(Backend/GameLogic)

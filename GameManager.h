@@ -17,6 +17,7 @@ class GameManager {
     Graphics graphics;
     GameWorld gameWorld;
     InputManager inputManager;
+    Config config;
 
 
 public:

@@ -12,7 +12,7 @@
 
 #include <cmath>
 
-#include "core.h"
+#include "Core.h"
 #include "CoreTypes.h"
 
 namespace Shapes

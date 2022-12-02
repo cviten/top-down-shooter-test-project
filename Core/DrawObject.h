@@ -5,7 +5,7 @@
 #ifndef TOP_DOWN_SHOOTER_DRAWOBJECT_H
 #define TOP_DOWN_SHOOTER_DRAWOBJECT_H
 
-#include "core.h"
+#include "Core.h"
 #include "Shapes.h"
 
 #include <map>
