@@ -16,6 +16,10 @@ public:
     explicit VisualBody(const Shape& iShape, bool isActive = true) : shape(iShape), active(isActive) {}
     void setActive(bool isActive) { active = isActive;}
 
+    bool isActive() const {
+        return active;
+    }
+
     const Shape& getShape() const {
         return shape;
     }

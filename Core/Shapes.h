@@ -5,6 +5,11 @@
 #ifndef TOP_DOWN_SHOOTER_SHAPES_H
 #define TOP_DOWN_SHOOTER_SHAPES_H
 
+#if __cplusplus >= 202002L
+#include <numbers>
+#endif
+
+
 #include <cmath>
 
 #include "core.h"
@@ -71,6 +76,18 @@ namespace Shapes
     {
         return radius * std::sqrt(2);
     }
+
+#if __cplusplus >= 202002L
+    inline constexpr Type squareLengthOfSameAreaCircle(Type radius)
+    {
+        return radius * std::sqrt(std::numbers::pi);
+    }
+#else
+    inline Type squareLengthOfSameAreaCircle(Type radius)
+    {
+        return radius * std::sqrt(M_PI);
+    }
+#endif
 
     template<typename Shape>
     inline Shape& move(Shape& shape, Direction direction, SpeedType speed, TimeType deltaTime)

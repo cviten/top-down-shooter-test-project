@@ -17,7 +17,13 @@ inline ValueType getValueOrDefault(const std::map<KeyType,ValueType>& map, const
 template <typename GameObject>
 DrawObject toDrawObject(const GameObject& obj)
 {
-    return {obj.getVisualBody().getShape(), obj.getGameObjectType()};
+    if (obj.getVisualBody().isActive()) {
+        return {obj.getVisualBody().getShape(), obj.getGameObjectType()};
+    }
+    else
+    {
+        return {Shapes::Circle({}, {}), obj.getGameObjectType()};
+    }
 }
 
 GameWorld::GameWorld() : player(Shapes::Rectangle({0,0},{20,20}), GameObjectType::Player),
@@ -40,17 +46,24 @@ void GameWorld::process(TimeType deltaTime) {
     // TODO: Replace with speed from player object or config
     const SpeedType playerSpeed = 400;
     const SpeedType walkSteps = playerSpeed / 20.0;
-    player.move(playerDirection, playerSpeed, deltaTime);
+
+    auto& playerControlledObject = enemy;
+    playerControlledObject.move(playerDirection, playerSpeed, deltaTime);
 
     // TODO: Add sliding along the wall
-    if( CollisionBody::check(player.getCollisionBody(), wall.getCollisionBody()))
+    if( CollisionBody::check(playerControlledObject.getCollisionBody(), wall.getCollisionBody()))
     {
-        player.move(-playerDirection, playerSpeed, deltaTime);
-        while (!CollisionBody::check(player.getCollisionBody(), wall.getCollisionBody()))
+        playerControlledObject.move(-playerDirection, playerSpeed, deltaTime);
+        while (!CollisionBody::check(playerControlledObject.getCollisionBody(), wall.getCollisionBody()))
         {
-            player.move(playerDirection, walkSteps, deltaTime);
+            playerControlledObject.move(playerDirection, walkSteps, deltaTime);
         }
-        player.move(-playerDirection, walkSteps, deltaTime);
+        playerControlledObject.move(-playerDirection, walkSteps, deltaTime);
+    }
+
+    if( CollisionBody::check(playerControlledObject.getCollisionBody(), bullet.getCollisionBody()))
+    {
+        playerControlledObject.setActive(false);
     }
 
 }

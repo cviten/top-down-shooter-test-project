@@ -14,7 +14,7 @@ public:
     explicit CollisionBody(const Shapes::Rectangle& rect, bool isActive = true) : rect(rect), active(isActive) {}
     explicit CollisionBody(const Shapes::Circle& circle, bool isActive = true) : rect(circle.position, 2 * circle.radius), active(isActive) {
         using namespace Shapes;
-        const Type sqrLength = squareLengthInCircle(circle.radius);
+        const Type sqrLength = squareLengthOfSameAreaCircle(circle.radius);
         rect.position.x += circle.radius - sqrLength * 0.5;
         rect.position.y += circle.radius - sqrLength * 0.5;
         rect.size = sqrLength;
