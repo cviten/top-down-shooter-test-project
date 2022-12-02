@@ -15,6 +15,7 @@ GameManager::GameManager() {
     palette.insert(std::make_pair(GameObjectType::Player, Colors::Green));
     palette.insert(std::make_pair(GameObjectType::Enemy, Colors::Blue));
     palette.insert(std::make_pair(GameObjectType::Wall, Colors::Yellow));
+    palette.insert(std::make_pair(GameObjectType::Bullet, Colors::White));
     graphics.setColorPalette(palette);
 }
 

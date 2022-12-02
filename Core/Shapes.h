@@ -5,6 +5,8 @@
 #ifndef TOP_DOWN_SHOOTER_SHAPES_H
 #define TOP_DOWN_SHOOTER_SHAPES_H
 
+#include <cmath>
+
 #include "core.h"
 #include "CoreTypes.h"
 
@@ -62,7 +64,13 @@ namespace Shapes
     {
         Point position; // Counted from the top left
         Type radius = 0;
+        Circle(Point pos, Type size) : position(pos), radius(size) {}
     };
+
+    inline constexpr Type squareLengthInCircle(Type radius)
+    {
+        return radius * std::sqrt(2);
+    }
 
     template<typename Shape>
     inline Shape& move(Shape& shape, Direction direction, SpeedType speed, TimeType deltaTime)

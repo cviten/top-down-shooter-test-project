@@ -22,7 +22,8 @@ DrawObject toDrawObject(const GameObject& obj)
 
 GameWorld::GameWorld() : player(Shapes::Rectangle({0,0},{20,20}), GameObjectType::Player),
                          enemy(Shapes::Rectangle({100,200},{20,20}), GameObjectType::Enemy),
-                         wall(Shapes::Rectangle({300,50},{20,20}), GameObjectType::Wall) {}
+                         wall(Shapes::Rectangle({300,50},{20,20}), GameObjectType::Wall),
+                         bullet(Shapes::Circle({400,400}, {7}), GameObjectType::Bullet){}
 
 std::vector<DrawObject> GameWorld::getDrawObjects() const {
     std::vector<DrawObject> pool;
@@ -30,8 +31,10 @@ std::vector<DrawObject> GameWorld::getDrawObjects() const {
     pool.emplace_back(toDrawObject(player));
     pool.emplace_back(toDrawObject(enemy));
     pool.emplace_back(toDrawObject(wall));
+    pool.emplace_back(toDrawObject(bullet));
     return pool;
 }
+
 
 void GameWorld::process(TimeType deltaTime) {
     // TODO: Replace with speed from player object or config

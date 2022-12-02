@@ -39,6 +39,8 @@ namespace DrawSettings
         constexpr static Color Green{0,255,0};
         constexpr static Color Blue{0,0,255};
         constexpr static Color Yellow{255,255,0};
+        constexpr static Color White{255,255,255};
+        constexpr static Color Black{0,0,0};
         constexpr static Color Transparent{0,0,0,0};
     }
 

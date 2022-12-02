@@ -6,7 +6,7 @@
 #define TOP_DOWN_SHOOTER_CORETYPES_H
 
 // Consider to make into class (like Color)
-enum class GameObjectType { Player, Enemy, Wall };
+enum class GameObjectType { Player, Enemy, Wall, Bullet };
 
 using IDType = int;
 

@@ -21,6 +21,8 @@ class GameWorld {
     Enemy enemy;
     Wall wall;
 
+    Bullet bullet;
+
     Direction playerDirection;
 public:
     GameWorld();
