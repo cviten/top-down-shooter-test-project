@@ -5,9 +5,8 @@
 #ifndef TOP_DOWN_SHOOTER_INPUT_H
 #define TOP_DOWN_SHOOTER_INPUT_H
 
-#include <map>
-
 #include "Core.h"
+#include "CoreTypes.h"
 
 namespace Input
 {
@@ -16,9 +15,9 @@ namespace Input
     enum class InputPoint { BulletLaunchTarget };
     enum class InputAction { Shoot };
 
-    using InputAxes = std::map<InputAxis, Direction>;
-    using InputPoints = std::map<InputPoint, Point>;
-    using InputActions = std::map<InputAction, bool>;
+    using InputAxes = MappingType<InputAxis, Direction>;
+    using InputPoints = MappingType<InputPoint, Point>;
+    using InputActions = MappingType<InputAction, bool>;
 
     struct Inputs
     {

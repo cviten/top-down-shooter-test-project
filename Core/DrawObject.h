@@ -7,8 +7,7 @@
 
 #include "Core.h"
 #include "Shapes.h"
-
-#include <map>
+#include "CoreTypes.h"
 
 namespace DrawSettings
 {
@@ -44,7 +43,7 @@ namespace DrawSettings
         constexpr static Color Transparent{0,0,0,0};
     }
 
-    using ObjectColorPalette = std::map<GameObjectType, Color>;
+    using ObjectColorPalette = MappingType<GameObjectType, Color>;
 }
 
 
