@@ -22,10 +22,13 @@ class GameWorld {
     Enemy enemy;
     Wall wall;
 
-    Bullet bullet;
+    std::vector<Bullet> bullets;
 
     Direction playerDirection;
     SpeedType playerSpeed;
+    SpeedType bulletSpeed;
+
+    void createBullet(Point startPosition, Direction direction, SpeedType speed);
 public:
     GameWorld();
     void process(TimeType deltaTime);

@@ -45,6 +45,20 @@ public:
 class Bullet : public SimpleGameObject<Shapes::Circle>
 {
     using SimpleGameObject::SimpleGameObject;
+    Direction direction;
+    SpeedType speed;
+
+public:
+    Bullet(const Shapes::Circle& shape, const Direction& direction, SpeedType speed, GameObjectType type)
+            : SimpleGameObject(shape, type), direction(direction), speed(speed) {}
+
+    SpeedType getSpeed() const {
+        return speed;
+    }
+
+    const Direction& getDirection() const {
+        return direction;
+    }
 };
 
 class Enemy : public SimpleGameObject<Shapes::Rectangle>
