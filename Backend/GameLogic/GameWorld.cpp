@@ -59,14 +59,10 @@ void GameWorld::process(TimeType deltaTime) {
 
 }
 
-void GameWorld::setInputAction(const Input::InputActions& actions) {
-
-}
-
-void GameWorld::setInputAxes(const Input::InputAxes& axes) {
-    playerDirection = getValueOrDefault(axes,Input::InputAxis::Move);
-}
-
 void GameWorld::applyConfig(const Config& config) {
     playerSpeed = config.getAsSpeed("PlayerSpeed");
+}
+
+void GameWorld::setInputs(const Input::Inputs& inputs) {
+    playerDirection = getValueOrDefault(inputs.axes,Input::InputAxis::Move);
 }

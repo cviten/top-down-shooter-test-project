@@ -18,9 +18,11 @@ namespace sf
 class InputManager {
     std::shared_ptr<sf::Window> window;
 
-    Input::InputActions actions;
-    Input::InputPoints points;
-    Input::InputAxes axes;
+//    Input::InputActions actions;
+//    Input::InputPoints points;
+//    Input::InputAxes axes;
+
+    Input::Inputs inputs;
 
     void readPressedKeys();
     void processKeyboardInput(const sf::Event& event);
@@ -35,9 +37,11 @@ public:
 
     void setWindow(const std::shared_ptr<sf::Window>& window);
 
-    const Input::InputAxes& getAxes() const;
-    const Input::InputPoints& getPoints() const;
-    const Input::InputActions& getActions() const;
+//    const Input::InputAxes& getAxes() const;
+//    const Input::InputPoints& getPoints() const;
+//    const Input::InputActions& getActions() const;
+
+    const Input::Inputs& getInputs() const;
 
     void processEvents();
 

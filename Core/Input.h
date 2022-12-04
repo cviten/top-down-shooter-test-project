@@ -19,6 +19,13 @@ namespace Input
     using InputAxes = std::map<InputAxis, Direction>;
     using InputPoints = std::map<InputPoint, Point>;
     using InputActions = std::map<InputAction, bool>;
+
+    struct Inputs
+    {
+        InputAxes axes;
+        InputPoints points;
+        InputActions actions;
+    };
 }
 
 #endif //TOP_DOWN_SHOOTER_INPUT_H

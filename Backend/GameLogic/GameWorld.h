@@ -31,8 +31,7 @@ public:
     void process(TimeType deltaTime);
     std::vector<DrawObject> getDrawObjects() const;
 
-    void setInputAction(const Input::InputActions& actions);
-    void setInputAxes(const Input::InputAxes& axes);
+    void setInputs(const Input::Inputs& inputs);
 
     void applyConfig(const Config& config);
 };

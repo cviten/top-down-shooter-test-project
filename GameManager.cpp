@@ -33,7 +33,7 @@ void GameManager::gameLoop() {
     {
         inputManager.processEvents();
 
-        gameWorld.setInputAxes(inputManager.getAxes());
+        gameWorld.setInputs(inputManager.getInputs());
         TimeType deltaTime = clock.restart().asSeconds();
 
         gameWorld.process(deltaTime);

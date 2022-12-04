@@ -7,21 +7,16 @@
 #include <SFML/Window/Window.hpp>
 #include <SFML/Window/Event.hpp>
 
-const Input::InputActions& InputManager::getActions() const {
-    return actions;
-}
-
-const Input::InputAxes& InputManager::getAxes() const {
-    return axes;
-}
-
 void InputManager::processKeyboardInput(const sf::Event& event) {
     switch (event.key.code) {
         case sf::Keyboard::Space:
-            actions[Input::InputAction::Shoot] = true;
+            inputs.actions[Input::InputAction::Shoot] = true;
             break;
         case sf::Keyboard::Escape:
             window->close();
+            break;
+        default:
+            break;
     }
 
 
@@ -32,8 +27,9 @@ void InputManager::finishInput() {
 }
 
 void InputManager::clearInput() {
-    axes.clear();
-    actions.clear();
+    // TODO: Replace with clearing only values and not whole structures to take advantage of moving vs creating objects every time
+    inputs.axes.clear();
+    inputs.actions.clear();
 }
 
 void InputManager::processEvents() {
@@ -48,11 +44,12 @@ void InputManager::processEvents() {
 }
 
 void InputManager::readPressedKeys() {
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || sf::Keyboard::isKeyPressed(sf::Keyboard::W)) axes[Input::InputAxis::Move].y -= 1;
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) || sf::Keyboard::isKeyPressed(sf::Keyboard::S)) axes[Input::InputAxis::Move].y += 1;
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::A)) axes[Input::InputAxis::Move].x -= 1;
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::D)) axes[Input::InputAxis::Move].x += 1;
-    axes[Input::InputAxis::Move] = normalize(axes[Input::InputAxis::Move]);
+    Vector dir;
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || sf::Keyboard::isKeyPressed(sf::Keyboard::W)) dir.y -= 1;
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) || sf::Keyboard::isKeyPressed(sf::Keyboard::S)) dir.y += 1;
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::A)) dir.x -= 1;
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::D)) dir.x += 1;
+    inputs.axes[Input::InputAxis::Move] = normalize(dir);
 }
 
 void InputManager::setWindow(const std::shared_ptr<sf::Window>& window) {
@@ -72,11 +69,11 @@ void InputManager::processEvent(const sf::Event& event) {
 void InputManager::processMouseButtonInput(const sf::Event& event) {
     if (event.mouseButton.button == sf::Mouse::Left)
     {
-        actions[Input::InputAction::Shoot] = true;
-        points[Input::InputPoint::BulletLaunchTarget] = Point (event.mouseButton.x, event.mouseButton.y);
+        inputs.actions[Input::InputAction::Shoot] = true;
+        inputs.points[Input::InputPoint::BulletLaunchTarget] = Point (event.mouseButton.x, event.mouseButton.y);
     }
 }
 
-const Input::InputPoints& InputManager::getPoints() const {
-    return points;
+const Input::Inputs& InputManager::getInputs() const {
+    return inputs;
 }
