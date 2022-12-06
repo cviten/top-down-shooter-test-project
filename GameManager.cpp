@@ -25,6 +25,8 @@ GameManager::GameManager() {
 void GameManager::gameLoop() {
     auto window = graphics.getWindow();
     window->setFramerateLimit(60);
+    const auto windowSize = window->getSize();
+    gameWorld.setPlayField({double (windowSize.x), double (windowSize.y)});
 
     inputManager.setWindow(window);
 

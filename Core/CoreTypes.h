@@ -10,6 +10,10 @@
 // Consider to make into class (like Color)
 enum class GameObjectType { Player, Enemy, Wall, Bullet };
 
+// Currently we don't really care about overflow since no object of the same type will live long enough for getting
+// the same id because of the overflow
+using IDType = unsigned int;
+
 template<typename KeyType, typename ValueType>
 using MappingType = std::unordered_map<KeyType,ValueType>;
 

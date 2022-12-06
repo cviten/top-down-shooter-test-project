@@ -11,20 +11,22 @@ template <typename GameObject>
 DrawObject toDrawObject(const GameObject& obj);
 
 template <typename GameObject>
+Point getPosition(const GameObject& obj);
+
+template <typename GameObject>
 void addDrawObject(std::vector<DrawObject>& pool, const GameObject& obj);
 
 template <typename Container>
 void addDrawObjects(std::vector<DrawObject>& pool, const Container& objContainer);
 
-Bullet createBullet(Point startPosition, Direction direction);
+//Bullet createBullet(Point startPosition, Direction direction);
 
 // =====================
 
-GameWorld::GameWorld() : player(Shapes::Rectangle({0,0},{20,20}), GameObjectType::Player),
-                         enemy(Shapes::Rectangle({100,200},{20,20}), GameObjectType::Enemy),
-                         wall(Shapes::Rectangle({300,50},{20,20}), GameObjectType::Wall)
+GameWorld::GameWorld() : player(0,Shapes::Rectangle({0,0},{20,20}), GameObjectType::Player),
+                         enemy(0,Shapes::Rectangle({100,200},{20,20}), GameObjectType::Enemy),
+                         wall(0,Shapes::Rectangle({300,50},{20,20}), GameObjectType::Wall)
                          {
-                             bullets.reserve(20);
                              createBullet({0,500}, {0,-1}, 500);
                          }
 
@@ -55,13 +57,23 @@ void GameWorld::process(TimeType deltaTime) {
         playerControlledObject.move(-playerDirection, walkSteps, deltaTime);
     }
 
-    for (auto& bullet : bullets) {
+    std::vector<IDType> bulletsIDToDelete;
+    for (auto& [id,bullet] : bullets) {
         bullet.move(bullet.getDirection(),bullet.getSpeed(), deltaTime);
         if( CollisionBody::check(playerControlledObject.getCollisionBody(), bullet.getCollisionBody()))
         {
             playerControlledObject.setActive(false);
         }
+
+        if(!playField.contains(getPosition(bullet)))
+        {
+            bulletsIDToDelete.push_back(bullet.getID());
+        }
     }
+    for (auto bulletID : bulletsIDToDelete) {
+        bullets.erase(bulletID);
+    }
+
 }
 
 void GameWorld::applyConfig(const Config& config) {
@@ -74,9 +86,14 @@ void GameWorld::setInputs(const Input::Inputs& inputs) {
 }
 
 void GameWorld::createBullet(Point startPosition, Direction direction, SpeedType speed) {
-    bullets.emplace_back(Shapes::Circle({startPosition}, {7}), direction, speed ,GameObjectType::Bullet);
+    const IDType id = bulletID++;
+    bullets.insert(std::make_pair(id, Bullet{id,Shapes::Circle({startPosition}, {7}), direction, speed ,GameObjectType::Bullet}));
 }
 
+void GameWorld::setPlayField(const Size& screenSize) {
+    playField.position = {0 - screenSize.x * 0.5, 0 - screenSize.y * 0.5};
+    playField.size = screenSize * 2;
+}
 // =====================
 
 template <typename GameObject>
@@ -85,6 +102,12 @@ DrawObject toDrawObject(const GameObject& obj)
     if (obj.getVisualBody().isActive()) {
         return {obj.getVisualBody().getShape(), obj.getGameObjectType()};
     }
+}
+
+template <typename GameObject>
+Point getPosition(const GameObject& obj)
+{
+    return obj.getCollisionBody().getPosition();
 }
 
 template <typename GameObject>
@@ -98,13 +121,8 @@ void addDrawObject(std::vector<DrawObject>& pool, const GameObject& obj)
 template <typename Container>
 void addDrawObjects(std::vector<DrawObject>& pool, const Container& objContainer)
 {
-    for(const auto& obj : objContainer)
+    for(const auto& [id,obj] : objContainer)
     {
         addDrawObject(pool,obj);
     }
-}
-
-Bullet createBullet(Point startPosition, Direction direction)
-{
-    return Bullet(Shapes::Circle({startPosition}, {7}),GameObjectType::Bullet);
 }

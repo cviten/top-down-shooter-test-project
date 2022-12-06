@@ -22,13 +22,19 @@ class GameWorld {
     Enemy enemy;
     Wall wall;
 
-    std::vector<Bullet> bullets;
+    MappingType<IDType, Bullet> bullets;
 
     Direction playerDirection;
     SpeedType playerSpeed;
     SpeedType bulletSpeed;
 
     void createBullet(Point startPosition, Direction direction, SpeedType speed);
+
+    Shapes::Rectangle playField;
+
+    // TODO: Should be replaced with singleton that gives new number every call
+    IDType bulletID = 0;
+
 public:
     GameWorld();
     void process(TimeType deltaTime);
@@ -37,6 +43,8 @@ public:
     void setInputs(const Input::Inputs& inputs);
 
     void applyConfig(const Config& config);
+
+    void setPlayField(const Size& screenSize);
 };
 
 

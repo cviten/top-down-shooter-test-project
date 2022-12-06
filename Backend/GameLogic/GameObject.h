@@ -11,13 +11,15 @@
 #include "Bodies/VisualBody.h"
 
 template<typename VisualShape>
-class SimpleGameObject
-{
+class SimpleGameObject {
+    IDType ID;
     GameObjectType gameObjectType;
     VisualBody<VisualShape> visualBody;
     CollisionBody collisionBody;
 public:
-    SimpleGameObject(const VisualShape& shape, GameObjectType type) : visualBody(shape), collisionBody(shape), gameObjectType(type) {}
+    SimpleGameObject(IDType ID, const VisualShape& shape, GameObjectType type) : ID(ID), visualBody(shape), collisionBody(shape),
+                                                                      gameObjectType(type) {}
+
     void setActive(bool isActive) {
         visualBody.setActive(isActive);
         collisionBody.setActive(isActive);
@@ -35,10 +37,13 @@ public:
         return collisionBody;
     }
 
-    void move(Direction direction, SpeedType speed, TimeType deltaTime)
-    {
+    void move(Direction direction, SpeedType speed, TimeType deltaTime) {
         visualBody.move(direction, speed, deltaTime);
         collisionBody.move(direction, speed, deltaTime);
+    }
+
+    IDType getID() const {
+        return ID;
     }
 };
 
@@ -49,8 +54,8 @@ class Bullet : public SimpleGameObject<Shapes::Circle>
     SpeedType speed;
 
 public:
-    Bullet(const Shapes::Circle& shape, const Direction& direction, SpeedType speed, GameObjectType type)
-            : SimpleGameObject(shape, type), direction(direction), speed(speed) {}
+    Bullet(IDType ID, const Shapes::Circle& shape, const Direction& direction, SpeedType speed, GameObjectType type)
+            : SimpleGameObject(ID, shape, type), direction(direction), speed(speed) {}
 
     SpeedType getSpeed() const {
         return speed;

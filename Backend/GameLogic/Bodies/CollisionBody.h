@@ -20,6 +20,8 @@ public:
         rect.size = sqrLength;
     }
 
+    Point getPosition() const { return rect.position; }
+
     static bool check(const CollisionBody& body1, const CollisionBody& body2)
     {
         using namespace Shapes;

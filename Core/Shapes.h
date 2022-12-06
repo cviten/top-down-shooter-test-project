@@ -22,11 +22,14 @@ namespace Shapes
         Point position; // Counted from the top left
         Size size;
         Point bottomRight() const { return position + size; }
+        Rectangle() {}
         Rectangle(Point pos, Size size) : position(pos), size(size) {}
+        bool contains(const Point& point) const
+        {
+            return (point.x >= position.x) && (point.x < bottomRight().x) && (point.y >= position.y) && (point.y < bottomRight().y);
+        }
         static Rectangle intersection(const Rectangle& rect1, const Rectangle& rect2)
         {
-            ;
-            ;
             if (((rect1.position.x > rect2.bottomRight().x) || (rect1.position.y > rect2.bottomRight().y) ||
                 (rect2.position.y > rect1.bottomRight().y) || (rect2.position.x > rect1.bottomRight().x)))
                 return {{},{}};
