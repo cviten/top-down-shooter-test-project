@@ -87,7 +87,7 @@ void GameWorld::setInputs(const Input::Inputs& inputs) {
 
 void GameWorld::createBullet(Point startPosition, Direction direction, SpeedType speed) {
     const IDType id = bulletID++;
-    bullets.insert(std::make_pair(id, Bullet{id,Shapes::Circle({startPosition}, {7}), direction, speed ,GameObjectType::Bullet}));
+    bullets.insert(std::make_pair(id, Bullet{id,Shapes::Circle({startPosition}, {7}), normalize(direction), speed ,GameObjectType::Bullet}));
 }
 
 void GameWorld::setPlayField(const Size& screenSize) {
