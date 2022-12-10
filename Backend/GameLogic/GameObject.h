@@ -47,30 +47,6 @@ public:
     }
 };
 
-class Bullet : public SimpleGameObject<Shapes::Circle>
-{
-    using SimpleGameObject::SimpleGameObject;
-    Direction direction;
-    SpeedType speed;
-
-    inline static SpeedType _defaultSpeed = 500;
-
-public:
-    Bullet(IDType ID, const Shapes::Circle& shape, const Direction& direction, SpeedType speed, GameObjectType type)
-            : SimpleGameObject(ID, shape, type), direction(direction), speed(speed) {}
-
-    SpeedType getSpeed() const {
-        return speed;
-    }
-
-    const Direction& getDirection() const {
-        return direction;
-    }
-
-    static void setDefaultSpeed(SpeedType newSpeed) { _defaultSpeed = newSpeed; }
-    static SpeedType defaultSpeed() { return _defaultSpeed; }
-};
-
 struct BulletSpawner
 {
     inline static Type defaultDistance = 30.0;
@@ -78,29 +54,6 @@ struct BulletSpawner
     {
         return objectCenter + normalize(direction) * distance;
     }
-};
-
-class Enemy : public SimpleGameObject<Shapes::Rectangle>
-{
-    using SimpleGameObject::SimpleGameObject;
-};
-
-class Player : public SimpleGameObject<Shapes::Rectangle>
-{
-    using SimpleGameObject::SimpleGameObject;
-    inline static SpeedType _defaultSpeed = 300;
-public:
-    Point getBulletPosition(Direction direction) {
-        return BulletSpawner::getPosition(getCollisionBody().getCenter(), direction);
-    }
-
-    static void setDefaultSpeed(SpeedType newSpeed) { _defaultSpeed = newSpeed; }
-    static SpeedType defaultSpeed() { return _defaultSpeed; }
-};
-
-class Wall : public SimpleGameObject<Shapes::Rectangle>
-{
-    using SimpleGameObject::SimpleGameObject;
 };
 
 #endif //TOP_DOWN_SHOOTER_GAMEOBJECT_H

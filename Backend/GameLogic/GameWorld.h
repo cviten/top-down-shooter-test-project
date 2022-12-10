@@ -14,6 +14,7 @@
 #include "Core/Config.h"
 // GameLogic
 #include "GameObject.h"
+#include "Backend/GameLogic/GameObjects/GaneObjects.h"
 
 class DrawObject;
 
