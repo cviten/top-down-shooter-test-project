@@ -67,9 +67,9 @@ void GameWorld::process(TimeType deltaTime) {
     std::vector<IDType> bulletsIDToDelete;
     for (auto& [id,bullet] : bullets) {
         bullet.move(bullet.getDirection(),bullet.getSpeed(), deltaTime);
-        if( CollisionBody::check(playerControlledObject.getCollisionBody(), bullet.getCollisionBody()))
+        if( CollisionBody::check(enemy.getCollisionBody(), bullet.getCollisionBody()))
         {
-            playerControlledObject.setActive(false);
+            enemy.setActive(false);
         }
 
         if(!playField.contains(getPosition(bullet)))
