@@ -27,11 +27,8 @@ class GameWorld {
     Direction playerDirection;
     Point targetPosition;
     bool shootCommand;
-    SpeedType playerSpeed;
-    SpeedType bulletSpeed;
 
     void createBullet(Point startPosition, Direction direction, SpeedType speed);
-
 
     Shapes::Rectangle playField;
 

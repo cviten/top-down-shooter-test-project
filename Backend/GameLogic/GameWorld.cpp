@@ -27,7 +27,7 @@ GameWorld::GameWorld() : player(0,Shapes::Rectangle({0,0},{20,20}), GameObjectTy
                          enemy(0,Shapes::Rectangle({100,200},{20,20}), GameObjectType::Enemy),
                          wall(0,Shapes::Rectangle({300,50},{20,20}), GameObjectType::Wall)
                          {
-                             createBullet({0,500}, {1,0}, 500);
+                             createBullet({0, 500}, {1, 0}, Bullet::defaultSpeed());
                          }
 
 std::vector<DrawObject> GameWorld::getDrawObjects() const {
@@ -41,15 +41,15 @@ std::vector<DrawObject> GameWorld::getDrawObjects() const {
 
 
 void GameWorld::process(TimeType deltaTime) {
-    const SpeedType walkSteps = playerSpeed / 20.0;
+    const SpeedType walkSteps = Player::defaultSpeed() / 20.0;
 
     auto& playerControlledObject = player;
-    playerControlledObject.move(playerDirection, playerSpeed, deltaTime);
+    playerControlledObject.move(playerDirection, Player::defaultSpeed(), deltaTime);
 
     // TODO: Add sliding along the wall
     if( CollisionBody::check(playerControlledObject.getCollisionBody(), wall.getCollisionBody()))
     {
-        playerControlledObject.move(-playerDirection, playerSpeed, deltaTime);
+        playerControlledObject.move(-playerDirection, Player::defaultSpeed(), deltaTime);
         while (!CollisionBody::check(playerControlledObject.getCollisionBody(), wall.getCollisionBody()))
         {
             playerControlledObject.move(playerDirection, walkSteps, deltaTime);
@@ -60,7 +60,7 @@ void GameWorld::process(TimeType deltaTime) {
     if(shootCommand)
     {
         Direction bulletDirection = targetPosition - getPosition(player);
-        createBullet(player.getBulletPosition(bulletDirection), bulletDirection, bulletSpeed);
+        createBullet(player.getBulletPosition(bulletDirection), bulletDirection, Bullet::defaultSpeed());
     }
 
 
@@ -84,8 +84,11 @@ void GameWorld::process(TimeType deltaTime) {
 }
 
 void GameWorld::applyConfig(const Config& config) {
-    playerSpeed = config.getAsSpeed("PlayerSpeed");
-    bulletSpeed = config.getAsSpeed("BulletSpeed");
+    SpeedType playerSpeed = config.getAsSpeed("PlayerSpeed");
+    SpeedType bulletSpeed = config.getAsSpeed("BulletSpeed");
+    if (playerSpeed > EPSILON) Player::setDefaultSpeed(playerSpeed);
+    if (bulletSpeed > EPSILON) Bullet::setDefaultSpeed(bulletSpeed);
+
 }
 
 void GameWorld::setInputs(const Input::Inputs& inputs) {
@@ -96,7 +99,7 @@ void GameWorld::setInputs(const Input::Inputs& inputs) {
 
 void GameWorld::createBullet(Point startPosition, Direction direction, SpeedType speed) {
     const IDType id = bulletID++;
-    bullets.insert(std::make_pair(id, Bullet{id,Shapes::Circle({startPosition}, {7}), normalize(direction), speed ,GameObjectType::Bullet}));
+    bullets.insert(std::make_pair(id, Bullet{id,Shapes::Circle({startPosition}, {7}), normalize(direction), Bullet::defaultSpeed() ,GameObjectType::Bullet}));
 }
 
 void GameWorld::setPlayField(const Size& screenSize) {
