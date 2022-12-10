@@ -66,6 +66,15 @@ public:
     }
 };
 
+struct BulletSpawner
+{
+    inline static Type defaultDistance = 30.0;
+    static Point getPosition(Point objectCenter, Direction direction, Type distance = defaultDistance)
+    {
+        return objectCenter + normalize(direction) * distance;
+    }
+};
+
 class Enemy : public SimpleGameObject<Shapes::Rectangle>
 {
     using SimpleGameObject::SimpleGameObject;
@@ -74,6 +83,10 @@ class Enemy : public SimpleGameObject<Shapes::Rectangle>
 class Player : public SimpleGameObject<Shapes::Rectangle>
 {
     using SimpleGameObject::SimpleGameObject;
+public:
+    Point getBulletPosition(Direction direction) {
+        return BulletSpawner::getPosition(getCollisionBody().getCenter(), direction);
+    }
 };
 
 class Wall : public SimpleGameObject<Shapes::Rectangle>

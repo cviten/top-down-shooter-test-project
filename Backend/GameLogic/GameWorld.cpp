@@ -27,7 +27,7 @@ GameWorld::GameWorld() : player(0,Shapes::Rectangle({0,0},{20,20}), GameObjectTy
                          enemy(0,Shapes::Rectangle({100,200},{20,20}), GameObjectType::Enemy),
                          wall(0,Shapes::Rectangle({300,50},{20,20}), GameObjectType::Wall)
                          {
-                             createBullet({0,500}, {0,-1}, 500);
+                             createBullet({0,500}, {1,0}, 500);
                          }
 
 std::vector<DrawObject> GameWorld::getDrawObjects() const {
@@ -57,6 +57,13 @@ void GameWorld::process(TimeType deltaTime) {
         playerControlledObject.move(-playerDirection, walkSteps, deltaTime);
     }
 
+    if(shootCommand)
+    {
+        Direction bulletDirection = targetPosition - getPosition(player);
+        createBullet(player.getBulletPosition(bulletDirection), bulletDirection, bulletSpeed);
+    }
+
+
     std::vector<IDType> bulletsIDToDelete;
     for (auto& [id,bullet] : bullets) {
         bullet.move(bullet.getDirection(),bullet.getSpeed(), deltaTime);
@@ -83,6 +90,8 @@ void GameWorld::applyConfig(const Config& config) {
 
 void GameWorld::setInputs(const Input::Inputs& inputs) {
     playerDirection = getValueOrDefault(inputs.axes,Input::InputAxis::Move);
+    targetPosition = getValueOrDefault(inputs.points,Input::InputPoint::TargetPosition);
+    shootCommand = getValueOrDefault(inputs.actions,Input::InputAction::Shoot);
 }
 
 void GameWorld::createBullet(Point startPosition, Direction direction, SpeedType speed) {

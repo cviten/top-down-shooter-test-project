@@ -22,6 +22,7 @@ namespace Shapes
         Point position; // Counted from the top left
         Size size;
         Point bottomRight() const { return position + size; }
+        Point center() const { return position + size * 0.5; }
         Rectangle() {}
         Rectangle(Point pos, Size size) : position(pos), size(size) {}
         bool contains(const Point& point) const
@@ -72,6 +73,7 @@ namespace Shapes
     {
         Point position; // Counted from the top left
         Type radius = 0;
+        Point center() const { return position + Vector(radius, radius); }
         Circle(Point pos, Type size) : position(pos), radius(size) {}
     };
 

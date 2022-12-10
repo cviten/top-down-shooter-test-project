@@ -21,6 +21,7 @@ public:
     }
 
     Point getPosition() const { return rect.position; }
+    Point getCenter() const { return  rect.center(); }
 
     static bool check(const CollisionBody& body1, const CollisionBody& body2)
     {

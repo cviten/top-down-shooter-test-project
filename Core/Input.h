@@ -12,7 +12,7 @@ namespace Input
 {
     // Consider remaking them as classes loaded through config
     enum class InputAxis { Move };
-    enum class InputPoint { BulletLaunchTarget };
+    enum class InputPoint { TargetPosition };
     enum class InputAction { Shoot };
 
     using InputAxes = MappingType<InputAxis, Direction>;

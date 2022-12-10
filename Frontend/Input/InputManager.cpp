@@ -40,6 +40,7 @@ void InputManager::processEvents() {
         processEvent(event);
     }
     readPressedKeys();
+    readMousePosition();
     finishInput();
 }
 
@@ -70,10 +71,15 @@ void InputManager::processMouseButtonInput(const sf::Event& event) {
     if (event.mouseButton.button == sf::Mouse::Left)
     {
         inputs.actions[Input::InputAction::Shoot] = true;
-        inputs.points[Input::InputPoint::BulletLaunchTarget] = Point (event.mouseButton.x, event.mouseButton.y);
+//        inputs.points[Input::InputPoint::TargetPosition] = Point (event.mouseButton.x, event.mouseButton.y);
     }
 }
 
 const Input::Inputs& InputManager::getInputs() const {
     return inputs;
+}
+
+void InputManager::readMousePosition() {
+    auto mousePosition = sf::Mouse::getPosition(*window);
+    inputs.points[Input::InputPoint::TargetPosition] = Point (mousePosition.x, mousePosition.y);
 }
