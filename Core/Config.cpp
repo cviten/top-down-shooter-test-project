@@ -12,6 +12,13 @@
 
 #include "Util.h"
 
+std::string toLowercase(std::string&& str)
+{
+    std::transform(str.begin(), str.end(), str.begin(),
+                   [](unsigned char c){ return std::tolower(c); });
+    return str;
+}
+
 void Config::loadConfig(const std::string& filename) {
     std::ifstream configFile(filename);
     if (configFile.is_open())
@@ -23,8 +30,8 @@ void Config::loadConfig(const std::string& filename) {
             if(line[0] == '#' || line.empty())
                 continue;
             auto delimiterPos = line.find("=");
-            auto key = line.substr(0, delimiterPos);
-            auto value = line.substr(delimiterPos + 1);
+            auto key = toLowercase(line.substr(0, delimiterPos));
+            auto value = toLowercase(line.substr(delimiterPos + 1));
             parameters.insert({key, value});
         }
 
@@ -36,7 +43,7 @@ void Config::loadConfig(const std::string& filename) {
 
 // TODO: Make key case-insensitive
 std::string Config::get(std::string key) const {
-    return getValueOrDefault(parameters, key);
+    return getValueOrDefault(parameters, toLowercase(std::move(key)));
 }
 
 SpeedType Config::getAsSpeed(std::string key) const {
