@@ -25,6 +25,8 @@ public:
         collisionBody.setActive(isActive);
     }
 
+    bool isActive() const { return visualBody.isActive() || collisionBody.isActive(); }
+
     GameObjectType getGameObjectType() const {
         return gameObjectType;
     }

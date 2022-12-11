@@ -20,7 +20,6 @@ template <typename Container>
 void addDrawObjects(std::vector<DrawObject>& pool, const Container& objContainer);
 
 //Bullet createBullet(Point startPosition, Direction direction);
-
 // =====================
 
 GameWorld::GameWorld() : player(0,Shapes::Rectangle({0,0},{20,20}), GameObjectType::Player),
@@ -74,13 +73,10 @@ void GameWorld::process(TimeType deltaTime) {
 
         if(!playField.contains(getPosition(bullet)))
         {
-            bulletsIDToDelete.push_back(bullet.getID());
+            bullet.setActive(false);
         }
     }
-    for (auto bulletID : bulletsIDToDelete) {
-        bullets.erase(bulletID);
-    }
-
+    deleteIfInactive(bullets);
 }
 
 void GameWorld::applyConfig(const Config& config) {
@@ -105,6 +101,20 @@ void GameWorld::createBullet(Point startPosition, Direction direction, SpeedType
 void GameWorld::setPlayField(const Size& screenSize) {
     playField.position = {0 - screenSize.x * 0.5, 0 - screenSize.y * 0.5};
     playField.size = screenSize * 2;
+}
+
+template<typename MapContainer>
+void GameWorld::deleteIfInactive(MapContainer& objContainer) {
+    std::vector<IDType> objectIDToDelete;
+    for (auto& [id,obj] : objContainer) {
+        if(!obj.isActive())
+        {
+            objectIDToDelete.push_back(obj.getID());
+        }
+    }
+    for (auto objID : objectIDToDelete) {
+        objContainer.erase(objID);
+    }
 }
 // =====================
 

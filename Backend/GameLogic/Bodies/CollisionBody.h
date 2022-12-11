@@ -31,6 +31,9 @@ public:
     }
 
     void setActive(bool isActive) { active = isActive;}
+    bool isActive() const {
+        return active;
+    }
 
     void move(Direction direction, SpeedType speed, TimeType deltaTime) { Shapes::move(rect, direction, speed, deltaTime);}
 };

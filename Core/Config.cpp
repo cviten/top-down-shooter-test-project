@@ -41,7 +41,6 @@ void Config::loadConfig(const std::string& filename) {
     }
 }
 
-// TODO: Make key case-insensitive
 std::string Config::get(std::string key) const {
     return getValueOrDefault(parameters, toLowercase(std::move(key)));
 }

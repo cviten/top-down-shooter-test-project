@@ -33,7 +33,11 @@ class GameWorld {
 
     Shapes::Rectangle playField;
 
-    // TODO: Should be replaced with singleton that gives new number every call
+    // Can be replaced with "erase_if" in C++20
+    template <typename MapContainer>
+    void deleteIfInactive(MapContainer& objContainer);
+
+    // TODO: Should be replaced with functor that gives new number every call
     IDType bulletID = 0;
 
 public:
