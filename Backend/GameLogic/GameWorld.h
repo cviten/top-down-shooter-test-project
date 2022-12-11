@@ -19,6 +19,13 @@
 class DrawObject;
 
 class GameWorld {
+    class IDTypeGen
+    {
+        IDType id = 0;
+    public:
+        IDType operator()() { return ++id;}
+        IDType get() const { return id; }
+    };
     Player player;
     Enemy enemy;
     Wall wall;
@@ -37,8 +44,7 @@ class GameWorld {
     template <typename MapContainer>
     void deleteIfInactive(MapContainer& objContainer);
 
-    // TODO: Should be replaced with functor that gives new number every call
-    IDType bulletID = 0;
+    IDTypeGen bulletID;
 
 public:
     GameWorld();
