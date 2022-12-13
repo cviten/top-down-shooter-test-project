@@ -10,12 +10,12 @@
 class CollisionBody : public Body<Shapes::Rectangle> {
 public:
     explicit CollisionBody(const Shapes::Rectangle& rect, bool isActive = true) : Body(rect, isActive) {}
-    explicit CollisionBody(const Shapes::Circle& circle, bool isActive = true) : Body({circle.position, 2 * circle.radius}, isActive) {
+    explicit CollisionBody(const Shapes::Circle& circle, bool isActive = true) : Body({circle.position, Size(2 * circle.radius, 2 * circle.radius)}, isActive) {
         using namespace Shapes;
         const Type sqrLength = squareLengthOfSameAreaCircle(circle.radius);
         shape.position.x += circle.radius - sqrLength * 0.5;
         shape.position.y += circle.radius - sqrLength * 0.5;
-        shape.size = sqrLength;
+        shape.size = {sqrLength, sqrLength};
     }
 
     static bool check(const CollisionBody& body1, const CollisionBody& body2)
