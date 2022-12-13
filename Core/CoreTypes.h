@@ -8,7 +8,7 @@
 #include <unordered_map>
 
 // Consider to make into class (like Color)
-enum class GameObjectType { Player, Enemy, Wall, Bullet };
+enum class GameObjectType { Player, Enemy, Wall, Bullet, Debug };
 
 // Currently we don't really care about overflow since no object of the same type will live long enough for getting
 // the same id because of the overflow
