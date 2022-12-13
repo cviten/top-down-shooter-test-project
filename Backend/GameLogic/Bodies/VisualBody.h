@@ -5,26 +5,13 @@
 #ifndef TOP_DOWN_SHOOTER_VISUALBODY_H
 #define TOP_DOWN_SHOOTER_VISUALBODY_H
 
-#include "Core/Shapes.h"
+#include "Body.h"
 
 template<typename Shape = Shapes::Rectangle>
-class VisualBody
+class VisualBody : public Body<Shape>
 {
-    Shape shape;
-    bool active;
 public:
-    explicit VisualBody(const Shape& iShape, bool isActive = true) : shape(iShape), active(isActive) {}
-    void setActive(bool isActive) { active = isActive;}
-
-    bool isActive() const {
-        return active;
-    }
-
-    const Shape& getShape() const {
-        return shape;
-    }
-
-    void move(Direction direction, SpeedType speed, TimeType deltaTime) { Shapes::move(shape, direction, speed, deltaTime);}
+    explicit VisualBody(const Shape& iShape, bool isActive = true) : Body<Shape>(iShape, isActive)  {}
 };
 
 
