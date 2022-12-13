@@ -62,13 +62,16 @@ void GameWorld::process(TimeType deltaTime) {
         createBullet(player.getBulletPosition(bulletDirection), bulletDirection, Bullet::defaultSpeed());
     }
 
-
-    std::vector<IDType> bulletsIDToDelete;
     for (auto& [id,bullet] : bullets) {
         bullet.move(bullet.getDirection(),bullet.getSpeed(), deltaTime);
         if( CollisionBody::check(enemy.getCollisionBody(), bullet.getCollisionBody()))
         {
             enemy.setActive(false);
+        }
+
+        if( CollisionBody::check(wall.getCollisionBody(), bullet.getCollisionBody()))
+        {
+            bullet.setActive(false);
         }
 
         if(!playField.contains(getPosition(bullet)))
@@ -94,7 +97,8 @@ void GameWorld::setInputs(const Input::Inputs& inputs) {
 }
 
 void GameWorld::createBullet(Point startPosition, Direction direction, SpeedType speed) {
-    bullets.insert(std::make_pair(bulletID(), Bullet{bulletID.get(),Shapes::Circle({startPosition}, {7}), normalize(direction), Bullet::defaultSpeed() ,GameObjectType::Bullet}));
+    const IDType id = bulletID();
+    bullets.insert(std::make_pair(id, Bullet{id,Shapes::Circle({startPosition}, {7}), normalize(direction), Bullet::defaultSpeed() ,GameObjectType::Bullet}));
 }
 
 void GameWorld::setPlayField(const Size& screenSize) {
