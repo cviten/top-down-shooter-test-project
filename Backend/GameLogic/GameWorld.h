@@ -19,6 +19,7 @@
 class DrawObject;
 
 class GameWorld {
+    const Shapes::Rectangle defaultRect = Shapes::Rectangle({0,0}, {20,20});
     class IDTypeGen
     {
         IDType id = 0;
@@ -26,25 +27,29 @@ class GameWorld {
         IDType operator()() { return ++id;}
         IDType get() const { return id; }
     };
-    Player player;
-    Enemy enemy;
-    Wall wall;
 
+    Player player;
+
+    // Look into making class that will be responsible for creation
+    // Probably template since deletion is already templated
     MappingType<IDType, Bullet> bullets;
+    MappingType<IDType, Wall> walls;
+    MappingType<IDType, Enemy> enemies;
+
+    void createBullet(Point startPosition, Direction direction, SpeedType speed);
+    void createWall(Point position);
+    void createEnemy(Point position);
+
 
     Direction playerDirection;
     Point targetPosition;
     bool shootCommand;
-
-    void createBullet(Point startPosition, Direction direction, SpeedType speed);
 
     Shapes::Rectangle playField;
 
     // Can be replaced with "erase_if" in C++20
     template <typename MapContainer>
     void deleteIfInactive(MapContainer& objContainer);
-
-    IDTypeGen bulletID;
 
 public:
     GameWorld();

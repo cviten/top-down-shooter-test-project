@@ -22,19 +22,26 @@ void addDrawObjects(std::vector<DrawObject>& pool, const Container& objContainer
 //Bullet createBullet(Point startPosition, Direction direction);
 // =====================
 
-GameWorld::GameWorld() : player(0,Shapes::Rectangle({0,0},{20,20}), GameObjectType::Player),
-                         enemy(0,Shapes::Rectangle({100,200},{20,20}), GameObjectType::Enemy),
-                         wall(0,Shapes::Rectangle({300,50},{20,20}), GameObjectType::Wall)
+GameWorld::GameWorld() : player(0,Shapes::Rectangle({0,0},{20,20}), GameObjectType::Player)
                          {
                              createBullet({0, 500}, {1, 0}, Bullet::defaultSpeed());
+                             createWall({200, 100});
+                             createWall({110, 370});
+                             createWall({240, 190});
+                             createWall({360, 230});
+                             createEnemy({700, 170});
+                             createEnemy({620, 250});
+                             createEnemy({570, 570});
+                             createEnemy({220, 220});
+                             createEnemy({100, 340});
                          }
 
 std::vector<DrawObject> GameWorld::getDrawObjects() const {
     std::vector<DrawObject> pool;
     addDrawObject(pool, player);
-    addDrawObject(pool, wall);
-    addDrawObject(pool, enemy);
     addDrawObjects(pool, bullets);
+    addDrawObjects(pool, walls);
+    addDrawObjects(pool, enemies);
     return pool;
 }
 
@@ -44,41 +51,53 @@ void GameWorld::process(TimeType deltaTime) {
 
     player.move(playerDirection, Player::defaultSpeed(), deltaTime);
 
-    // TODO: Add sliding along the wall
-    if( CollisionBody::check(player.getCollisionBody(), wall.getCollisionBody()))
-    {
-        player.move(-playerDirection, Player::defaultSpeed(), deltaTime);
-        while (!CollisionBody::check(player.getCollisionBody(), wall.getCollisionBody()))
-        {
-            player.move(playerDirection, walkSteps, deltaTime);
-        }
-        player.move(-playerDirection, walkSteps, deltaTime);
-    }
-
     if(shootCommand)
     {
         Direction bulletDirection = targetPosition - getPosition(player);
         createBullet(player.getBulletPosition(bulletDirection), bulletDirection, Bullet::defaultSpeed());
     }
 
-    for (auto& [id,bullet] : bullets) {
-        bullet.move(bullet.getDirection(),bullet.getSpeed(), deltaTime);
-        if( CollisionBody::check(enemy.getCollisionBody(), bullet.getCollisionBody()))
+    // General optimization idea:
+    // Divide screen/field into parts (for example, 4) and check collision only with objects in relevant parts
+    // Algorithm will still be O(n) and O(n^2) but at least we can somewhat reduce amount of comparisons
+    // Research more efficient algorithms
+
+    for (const auto& [id, wall] : walls) {
+        // TODO: Add sliding along the wall
+        if( CollisionBody::check(player.getCollisionBody(), wall.getCollisionBody()))
         {
-            enemy.setActive(false);
+            player.move(-playerDirection, Player::defaultSpeed(), deltaTime);
+            while (!CollisionBody::check(player.getCollisionBody(), wall.getCollisionBody()))
+            {
+                player.move(playerDirection, walkSteps, deltaTime);
+            }
+            player.move(-playerDirection, walkSteps, deltaTime);
         }
 
-        if( CollisionBody::check(wall.getCollisionBody(), bullet.getCollisionBody()))
-        {
-            bullet.setActive(false);
+    }
+
+    for (auto& [idBullet, bullet]: bullets) {
+        bullet.move(bullet.getDirection(), bullet.getSpeed(), deltaTime);
+
+        for (auto& [idEnemy, enemy] : enemies) {
+            if (CollisionBody::check(enemy.getCollisionBody(), bullet.getCollisionBody())) {
+                enemy.setActive(false);
+            }
         }
 
-        if(!playField.contains(getPosition(bullet)))
-        {
+        for (const auto& [idWall, wall] : walls) {
+            if (CollisionBody::check(wall.getCollisionBody(), bullet.getCollisionBody())) {
+                bullet.setActive(false);
+            }
+        }
+
+        if (!playField.contains(getPosition(bullet))) {
             bullet.setActive(false);
         }
     }
+
     deleteIfInactive(bullets);
+    deleteIfInactive(enemies);
 }
 
 void GameWorld::applyConfig(const Config& config) {
@@ -96,8 +115,25 @@ void GameWorld::setInputs(const Input::Inputs& inputs) {
 }
 
 void GameWorld::createBullet(Point startPosition, Direction direction, SpeedType speed) {
+    static IDTypeGen bulletID;
     const IDType id = bulletID();
     bullets.insert(std::make_pair(id, Bullet{id,Shapes::Circle({startPosition}, {7}), normalize(direction), Bullet::defaultSpeed() ,GameObjectType::Bullet}));
+}
+
+void GameWorld::createWall(Point position) {
+    static IDTypeGen wallsID;
+    const IDType id = wallsID();
+    auto wallShape = defaultRect;
+    wallShape.position = position;
+    walls.insert(std::make_pair(id, Wall(id, wallShape, GameObjectType::Wall)));
+}
+
+void GameWorld::createEnemy(Point position) {
+    static IDTypeGen enemyID;
+    const IDType id = enemyID();
+    auto enemyShape = defaultRect;
+    enemyShape.position = position;
+    enemies.insert(std::make_pair(id, Enemy(id, enemyShape, GameObjectType::Enemy)));
 }
 
 void GameWorld::setPlayField(const Size& screenSize) {
