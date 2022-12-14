@@ -42,18 +42,17 @@ std::vector<DrawObject> GameWorld::getDrawObjects() const {
 void GameWorld::process(TimeType deltaTime) {
     const SpeedType walkSteps = Player::defaultSpeed() / 20.0;
 
-    auto& playerControlledObject = player;
-    playerControlledObject.move(playerDirection, Player::defaultSpeed(), deltaTime);
+    player.move(playerDirection, Player::defaultSpeed(), deltaTime);
 
     // TODO: Add sliding along the wall
-    if( CollisionBody::check(playerControlledObject.getCollisionBody(), wall.getCollisionBody()))
+    if( CollisionBody::check(player.getCollisionBody(), wall.getCollisionBody()))
     {
-        playerControlledObject.move(-playerDirection, Player::defaultSpeed(), deltaTime);
-        while (!CollisionBody::check(playerControlledObject.getCollisionBody(), wall.getCollisionBody()))
+        player.move(-playerDirection, Player::defaultSpeed(), deltaTime);
+        while (!CollisionBody::check(player.getCollisionBody(), wall.getCollisionBody()))
         {
-            playerControlledObject.move(playerDirection, walkSteps, deltaTime);
+            player.move(playerDirection, walkSteps, deltaTime);
         }
-        playerControlledObject.move(-playerDirection, walkSteps, deltaTime);
+        player.move(-playerDirection, walkSteps, deltaTime);
     }
 
     if(shootCommand)
