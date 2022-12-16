@@ -23,7 +23,8 @@ struct XY {
     Type x;
     Type y;
 
-    XY(Type x = 0, Type y = 0) : x(x), y(y) {}
+    XY(Type x, Type y) : x(x), y(y) {}
+    XY() : XY(0,0) {}
 };
 
 
