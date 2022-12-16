@@ -24,16 +24,6 @@ void addDrawObjects(std::vector<DrawObject>& pool, const Container& objContainer
 
 GameWorld::GameWorld() : player(0,Shapes::Rectangle({0,0},{20,20}), GameObjectType::Player)
                          {
-                             createBullet({0, 500}, {1, 0}, Bullet::defaultSpeed());
-                             createWall({200, 100});
-                             createWall({110, 370});
-                             createWall({240, 190});
-                             createWall({360, 230});
-                             createEnemy({700, 170});
-                             createEnemy({620, 250});
-                             createEnemy({570, 570});
-                             createEnemy({220, 220});
-                             createEnemy({100, 340});
                          }
 
 std::vector<DrawObject> GameWorld::getDrawObjects() const {
@@ -154,6 +144,36 @@ void GameWorld::deleteIfInactive(MapContainer& objContainer) {
         objContainer.erase(objID);
     }
 }
+
+void GameWorld::setLevel(const Level& level) {
+
+    clearLevel();
+
+    // TODO: Add setting position for player (requires "setPosition" in SimpleGameObject)
+    for (const auto& enemyPos : level.enemyPosition) {
+        createEnemy(enemyPos);
+    }
+    for (const auto& wallPos : level.wallPosition) {
+        createWall(wallPos);
+    }
+    for (const auto& bulletSpawn : level.bulletSpawns) {
+        createBullet(bulletSpawn.position, bulletSpawn.direction, Bullet::defaultSpeed());
+    }
+}
+
+void GameWorld::clearLevel() {
+    enemies.clear();
+    bullets.clear();
+    walls.clear();
+}
+
+GameWorld::Status GameWorld::getStatus() const {
+    return GameWorld::Status().setPlayerActive(player.isActive())
+                                .setEnemyCount(enemies.size())
+                                .setBulletCount(bullets.size())
+                                .setWallCount(walls.size());
+}
+
 // =====================
 
 template <typename GameObject>

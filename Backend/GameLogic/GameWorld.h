@@ -14,11 +14,25 @@
 #include "Core/Config.h"
 // GameLogic
 #include "GameObject.h"
+#include "Level.h"
 #include "Backend/GameLogic/GameObjects/GaneObjects.h"
 
 class DrawObject;
 
 class GameWorld {
+public:
+    struct Status
+    {
+        bool playerActive;
+        uint enemyCount;
+        uint bulletCount;
+        uint wallCount;
+        Status& setPlayerActive(bool active) { playerActive = active; return *this; }
+        Status& setEnemyCount(uint count) { enemyCount = count; return *this; }
+        Status& setBulletCount(uint count) { bulletCount = count; return *this; }
+        Status& setWallCount(uint count) { wallCount = count; return *this; }
+    };
+private:
     const Shapes::Rectangle defaultRect = Shapes::Rectangle({0,0}, {20,20});
     class IDTypeGen
     {
@@ -56,11 +70,17 @@ public:
     void process(TimeType deltaTime);
     std::vector<DrawObject> getDrawObjects() const;
 
+    void setLevel(const Level& level);
+
     void setInputs(const Input::Inputs& inputs);
 
     void applyConfig(const Config& config);
 
     void setPlayField(const Size& screenSize);
+
+    Status getStatus() const;
+
+    void clearLevel();
 };
 
 
