@@ -46,9 +46,9 @@ private:
 
     // Look into making class that will be responsible for creation
     // Probably template since deletion is already templated
-    MappingType<IDType, Bullet> bullets;
-    MappingType<IDType, Wall> walls;
-    MappingType<IDType, Enemy> enemies;
+    ObjectMap<Bullet> bullets;
+    ObjectMap<Wall> walls;
+    ObjectMap<Enemy> enemies;
 
     void createBullet(Point startPosition, Direction direction, SpeedType speed);
     void createWall(Point position);

@@ -17,6 +17,9 @@ using IDType = unsigned int;
 template<typename KeyType, typename ValueType>
 using MappingType = std::unordered_map<KeyType,ValueType>;
 
+template<typename ObjectType>
+using ObjectMap = MappingType<IDType, ObjectType>;
+
 // Consider moving it to the Core/GameTypes.h
 using SpeedType = double;
 using TimeType = double;
