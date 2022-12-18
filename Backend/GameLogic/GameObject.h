@@ -59,6 +59,9 @@ public:
         visualBody.setPosition(originPoint + visualBodyOffset);
     }
 
+    const Point& getPosition() const {
+        return originPoint;
+    }
 
     IDType getID() const {
         return ID;
