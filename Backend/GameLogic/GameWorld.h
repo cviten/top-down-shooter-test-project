@@ -24,14 +24,37 @@ class GameWorld {
 public:
     struct Status
     {
+        using ObjectInfo = Point;
+        using ObjectInfoVec = std::vector<ObjectInfo>;
+
+
         bool playerActive;
-        uint enemyCount;
-        uint bulletCount;
-        uint wallCount;
-        Status& setPlayerActive(bool active) { playerActive = active; return *this; }
-        Status& setEnemyCount(uint count) { enemyCount = count; return *this; }
-        Status& setBulletCount(uint count) { bulletCount = count; return *this; }
-        Status& setWallCount(uint count) { wallCount = count; return *this; }
+        ObjectInfo playerInfo;
+
+        ObjectInfoVec enemiesInfo;
+        ObjectInfoVec bulletsInfo;
+        ObjectInfoVec wallsInfo;
+
+        Status& setPlayerInfo(const Player& player) {
+            playerInfo = player.getPosition();
+            playerActive = player.isActive();
+            return *this;
+        }
+        Status& setEnemyInfo(const ObjectMap<Enemy>& map) {
+            for(const auto& [id,obj] : map)
+                enemiesInfo.push_back(obj.getPosition());
+            return *this;
+        }
+        Status& setBulletInfo(const ObjectMap<Bullet>& map) {
+            for(const auto& [id,obj] : map)
+                bulletsInfo.push_back(obj.getPosition());
+            return *this;
+        }
+        Status& setWallInfo(const ObjectMap<Wall>& map) {
+            for(const auto& [id,obj] : map)
+                wallsInfo.push_back(obj.getPosition());
+            return *this;
+        }
     };
 private:
     const Shapes::Rectangle defaultRect = Shapes::Rectangle({0,0}, {20,20});

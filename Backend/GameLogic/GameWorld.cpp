@@ -169,10 +169,10 @@ void GameWorld::clearLevel() {
 }
 
 GameWorld::Status GameWorld::getStatus() const {
-    return GameWorld::Status().setPlayerActive(player.isActive())
-                                .setEnemyCount(enemies.size())
-                                .setBulletCount(bullets.size())
-                                .setWallCount(walls.size());
+    return GameWorld::Status().setPlayerInfo(player)
+            .setEnemyInfo(enemies)
+            .setBulletInfo(bullets)
+            .setWallInfo(walls);
 }
 
 // =====================
