@@ -16,6 +16,7 @@
 #include "GameObject.h"
 #include "Level.h"
 #include "Backend/GameLogic/GameObjects/GaneObjects.h"
+#include "GameLog.h"
 
 class DrawObject;
 
@@ -60,6 +61,8 @@ private:
     bool shootCommand;
 
     Shapes::Rectangle playField;
+
+    GameLog gameLog;
 
     // Can be replaced with "erase_if" in C++20
     template <typename MapContainer>
