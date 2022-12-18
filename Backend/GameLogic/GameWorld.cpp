@@ -149,7 +149,8 @@ void GameWorld::setLevel(const Level& level) {
 
     clearLevel();
 
-    // TODO: Add setting position for player (requires "setPosition" in SimpleGameObject)
+    player.setPosition(level.playerPosition);
+
     for (const auto& enemyPos : level.enemyPosition) {
         createEnemy(enemyPos);
     }

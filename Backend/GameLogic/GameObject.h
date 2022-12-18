@@ -16,9 +16,17 @@ class SimpleGameObject {
     GameObjectType gameObjectType;
     VisualBody<VisualShape> visualBody;
     CollisionBody collisionBody;
+
+    // Currently CollisionBody position will always be origin point
+    Point originPoint;
+    Vector visualBodyOffset;
+    Vector collisionBodyOffset{};
 public:
     SimpleGameObject(IDType ID, const VisualShape& shape, GameObjectType type) : ID(ID), visualBody(shape), collisionBody(shape),
-                                                                      gameObjectType(type) {}
+                                                                      gameObjectType(type) {
+        originPoint = collisionBody.getPosition();
+        visualBodyOffset = visualBody.getPosition() - originPoint;
+    }
 
     void setActive(bool isActive) {
         visualBody.setActive(isActive);
@@ -43,6 +51,14 @@ public:
         visualBody.move(direction, speed, deltaTime);
         collisionBody.move(direction, speed, deltaTime);
     }
+
+    void setPosition(Point point)
+    {
+        originPoint = point;
+        collisionBody.setPosition(originPoint + collisionBodyOffset);
+        visualBody.setPosition(originPoint + visualBodyOffset);
+    }
+
 
     IDType getID() const {
         return ID;

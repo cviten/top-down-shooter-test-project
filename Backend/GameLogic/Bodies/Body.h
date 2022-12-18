@@ -30,6 +30,8 @@ public:
         return shape;
     }
 
+    void setPosition(Point point) { shape.position = point; }
+
     void move(Direction direction, SpeedType speed, TimeType deltaTime) { Shapes::move(shape, direction, speed, deltaTime);}
 };
 
