@@ -26,31 +26,49 @@ TEST_SUITE("Game")
         GameWorld gameWorld;
         gameWorld.setPlayField({1000, 1000});
 
-        SUBCASE("Level loading")
-        {
-            Level level;
+        SUBCASE("Level loading") {
+            SUBCASE("Standard") {
+                Level level;
 
-            level.enemyPosition.emplace_back(620, 250);
-            level.enemyPosition.emplace_back(570, 570);
-            level.enemyPosition.emplace_back(220, 220);
-            level.enemyPosition.emplace_back(100, 340);
+                level.enemyPosition.emplace_back(620, 250);
+                level.enemyPosition.emplace_back(570, 570);
+                level.enemyPosition.emplace_back(220, 220);
+                level.enemyPosition.emplace_back(100, 340);
 
-            level.wallPosition.emplace_back(200,100);
-            level.wallPosition.emplace_back(200, 100);
-            level.wallPosition.emplace_back(110, 370);
-            level.wallPosition.emplace_back(240, 190);
-            level.wallPosition.emplace_back(360, 230);
-            level.wallPosition.emplace_back(700, 170);
+                level.wallPosition.emplace_back(200, 100);
+                level.wallPosition.emplace_back(200, 100);
+                level.wallPosition.emplace_back(110, 370);
+                level.wallPosition.emplace_back(240, 190);
+                level.wallPosition.emplace_back(360, 230);
+                level.wallPosition.emplace_back(700, 170);
 
-            level.bulletSpawns.push_back(Level::BulletSpawn({0, 500}, {1, 0}));
+                level.bulletSpawns.push_back(Level::BulletSpawn({0, 500}, {1, 0}));
 
-            gameWorld.setLevel(level);
 
-            REQUIRE_EQ(gameWorld.getStatus().enemyCount, 4);
-            REQUIRE_EQ(gameWorld.getStatus().wallCount, 6);
-            REQUIRE_EQ(gameWorld.getStatus().bulletCount, 1);
+
+                gameWorld.setLevel(level);
+
+                CHECK(gameWorld.validateLevelStatus());
+
+                gameWorld.process(0);
+
+                REQUIRE_EQ(gameWorld.getStatus().enemiesInfo.size(), 4);
+                REQUIRE_EQ(gameWorld.getStatus().wallsInfo.size(), 6);
+                REQUIRE_EQ(gameWorld.getStatus().bulletsInfo.size(), 1);
+
+            }
+            SUBCASE("Invalid (Player over Walls)")
+            {
+                Level level;
+
+                level.playerPosition = {620, 250};
+                level.wallPosition.emplace_back(620, 250);
+
+                gameWorld.setLevel(level);
+                CHECK_FALSE(gameWorld.validateLevelStatus());
+            }
         }
-        SUBCASE("Bullet Collision") {
+        SUBCASE("Collisions") {
             SUBCASE("Bullets and Enemies") {
                 Level level;
 
@@ -67,8 +85,10 @@ TEST_SUITE("Game")
                 gameWorld.setLevel(level);
                 gameWorld.process(0);
 
-                CHECK_EQ(gameWorld.getStatus().enemyCount, 0);
-                CHECK_EQ(gameWorld.getStatus().bulletCount, 4);
+                CHECK(gameWorld.validateLevelStatus());
+
+                CHECK_EQ(gameWorld.getStatus().enemiesInfo.size(), 0);
+                CHECK_EQ(gameWorld.getStatus().bulletsInfo.size(), 4);
             }
 
             SUBCASE("Bullets and Walls") {
@@ -87,8 +107,10 @@ TEST_SUITE("Game")
                 gameWorld.setLevel(level);
                 gameWorld.process(0.0);
 
-                CHECK_EQ(gameWorld.getStatus().bulletCount, 0);
-                CHECK_EQ(gameWorld.getStatus().wallCount, 4);
+                CHECK(gameWorld.validateLevelStatus());
+
+                CHECK_EQ(gameWorld.getStatus().bulletsInfo.size(), 0);
+                CHECK_EQ(gameWorld.getStatus().wallsInfo.size(), 4);
             }
         }
 

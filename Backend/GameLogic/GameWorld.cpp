@@ -175,6 +175,20 @@ GameWorld::Status GameWorld::getStatus() const {
             .setWallInfo(walls);
 }
 
+bool GameWorld::validateLevelStatus() {
+    const auto playerCollisionBox = player.getCollisionBody();
+    if(std::any_of(walls.cbegin(), walls.cend(),
+                        [&playerCollisionBox](const auto& pair)
+                        { return CollisionBody::check(playerCollisionBox, pair.second.getCollisionBody());}))
+    {
+        gameLog(GameLog::Error, "Player collides with one of the walls");
+        return false;
+    }
+
+    return true;
+
+}
+
 // =====================
 
 template <typename GameObject>

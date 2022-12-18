@@ -81,7 +81,7 @@ private:
 
     Direction playerDirection;
     Point targetPosition;
-    bool shootCommand;
+    bool shootCommand = false;
 
     Shapes::Rectangle playField;
 
@@ -97,6 +97,7 @@ public:
     std::vector<DrawObject> getDrawObjects() const;
 
     void setLevel(const Level& level);
+    bool validateLevelStatus();
 
     void setInputs(const Input::Inputs& inputs);
 
