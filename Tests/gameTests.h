@@ -10,6 +10,48 @@
 #include "Backend/GameLogic/GameObject.h"
 #include "Backend/GameLogic/GameWorld.h"
 
+class PlayerInputBuilder
+{
+public:
+    enum InputDirection {
+        Up,
+        Down,
+        Left,
+        Right,
+        };
+    Input::Inputs inputs;
+public:
+    PlayerInputBuilder& setDirection(InputDirection direction)
+    {
+        switch (direction) {
+            case Up:
+                inputs.axes[Input::InputAxis::Move] = normalize({0, -1});
+                break;
+            case Down:
+                inputs.axes[Input::InputAxis::Move] = normalize({0, 1});
+                break;
+            case Left:
+                inputs.axes[Input::InputAxis::Move] = normalize({-1, 0});
+                break;
+            case Right:
+                inputs.axes[Input::InputAxis::Move] = normalize({1, 0});
+                break;
+        }
+        return *this;
+    }
+    PlayerInputBuilder& setShootCommand(bool shoot)
+    {
+        inputs.actions[Input::InputAction::Shoot] = shoot;
+        return *this;
+    }
+    PlayerInputBuilder& setTargetPosition(Point target)
+    {
+        inputs.points[Input::InputPoint::TargetPosition] = target;
+        return *this;
+    }
+    Input::Inputs getInputs() const { return inputs; }
+};
+
 TEST_SUITE("Game")
 {
     TEST_CASE("Collision Body Creation")
