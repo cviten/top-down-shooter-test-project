@@ -154,6 +154,24 @@ TEST_SUITE("Game")
                 CHECK_EQ(gameWorld.getStatus().bulletsInfo.size(), 0);
                 CHECK_EQ(gameWorld.getStatus().wallsInfo.size(), 4);
             }
+
+            SUBCASE("Player and Walls")
+            {
+                Level level;
+
+                level.playerPosition = {620, 250};
+                level.wallPosition.emplace_back(620, 250);
+
+                gameWorld.setLevel(level);
+
+                PlayerInputBuilder playerInputBuilder;
+                playerInputBuilder.setDirection(PlayerInputBuilder::Right);
+
+                gameWorld.setInputs(playerInputBuilder.getInputs());
+                gameWorld.process(0.0001);
+
+                CHECK(gameWorld.validateLevelStatus());
+            }
         }
 
     }
