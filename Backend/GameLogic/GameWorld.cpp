@@ -56,12 +56,8 @@ void GameWorld::process(TimeType deltaTime) {
         // TODO: Add sliding along the wall
         if( CollisionBody::check(player.getCollisionBody(), wall.getCollisionBody()))
         {
-            player.move(-playerDirection, Player::defaultSpeed(), deltaTime);
-            while (!CollisionBody::check(player.getCollisionBody(), wall.getCollisionBody()))
-            {
-                player.move(playerDirection, walkSteps, deltaTime);
-            }
-            player.move(-playerDirection, walkSteps, deltaTime);
+            while (CollisionBody::check(player.getCollisionBody(), wall.getCollisionBody()))
+                player.move(-playerDirection, walkSteps, deltaTime);
         }
 
     }
